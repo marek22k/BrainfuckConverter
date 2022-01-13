@@ -28,7 +28,7 @@ class BrainfuckConverter
   # @param cells_num [Integer] Number of cells to be used. All values from 0
   #   can be used. If not specified, 8 cells are used. Regardless of the number
   #   specified here, an additional cell is used.
-  # @return [String]
+  # @return [String, FalseClass]
   # @example
   #   require "brainfuck_converter"
   #   
