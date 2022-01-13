@@ -14,10 +14,31 @@ class BrainfuckConverter
   attr_reader :code
   attr_accessor :cmds
   
+  # Initializes a new Brainfuck Converter
+  #
+  # @param bf_cmds [Hash] Command sign. If not specified, the default command
+  #   set under BrainfuckConverter::DEFAULT_COMMANDS will be used.
   def initialize bf_cmds = DEFAULT_COMMANDS
     @cmds = bf_cmds
   end
   
+  # Converts an ASCII string to Brainfuck code.
+  #
+  # @param text [String] The text to be converted into Brainfuck code.
+  # @param cells_num [Integer] Number of cells to be used. All values from 0
+  #   can be used. If not specified, 8 cells are used. Regardless of the number
+  #   specified here, an additional cell is used.
+  # @return [String]
+  # @example
+  #   require "brainfuck_converter"
+  #   
+  #   con = BrainfuckConverter.new
+  #   
+  #   con.convert "Hello World!"  # => "Hello World!"
+  #   con.code  # => "++++++++++++++[>+>++>+++>++++>+++++>++++++>++++++... too long"
+  #   
+  #   con.convert "Hallo Welt!", 15  # => "Hallo Welt!"
+  #   con.code  # => "+++++++[>+>++>+++>++++>+++++>++++++>+++++++>+++++... too long"
   def convert text, cells_num = 8
     # To output a string in Brainfuck, "auxiliary numbers" are written into
     # certain cells. If a letter is to be output, the letter is converted into
@@ -25,12 +46,14 @@ class BrainfuckConverter
     # This is then adjusted so that it corresponds to the ASCII value of the letter.
     # The auxiliary number or the letter is then output.
     
+    if cells_num < 1
+      return false
+    end
+    
     # Code is cleared. A new Brainfuck program is started.
     @code = ""
     
     # Calculating the auxiliary numbers
-    # Thereby ells_num - 1 auxiliary numbers are formed. -1,
-    # because one cell is needed as a counter for the loop.
     space_cells = 127 / (cells_num + 1)
     @cell_values = []
     @cell_values[0] = space_cells
@@ -92,4 +115,3 @@ class BrainfuckConverter
   end
   
 end
-
